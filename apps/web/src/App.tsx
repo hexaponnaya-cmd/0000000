@@ -18,13 +18,13 @@ import { Webhooks } from './pages/dashboard/Webhooks'
 import { Logs } from './pages/dashboard/Logs'
 import { Templates } from './pages/dashboard/Templates'
 import { Settings } from './pages/dashboard/Settings'
-import { Spinner } from './components/ui/Spinner'
+import { VerifiedMail } from './pages/dashboard/VerifiedMail'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
   if (loading) return (
     <div className="flex h-screen items-center justify-center bg-black">
-      <div className="animate-spin h-6 w-6 border-2 border-[#1a1a1a] border-t-primary rounded-full" />
+      <div className="animate-spin h-6 w-6 border-2 border-[#1a1a1a] border-t-[#6366f1] rounded-full" />
     </div>
   )
   if (!user) return <Navigate to="/login" replace />
@@ -56,6 +56,7 @@ export default function App() {
             <Route path="logs" element={<Logs />} />
             <Route path="templates" element={<Templates />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="verified-mail" element={<VerifiedMail />} />
           </Route>
         </Routes>
       </BrowserRouter>

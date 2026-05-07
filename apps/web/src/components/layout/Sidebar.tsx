@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Mail, Globe, Key, Users, Megaphone,
-  Webhook, ScrollText, FileText, Settings, LogOut, Menu, X, ChevronDown
+  Webhook, ScrollText, FileText, Settings, LogOut, X, ChevronDown, ShieldCheck
 } from 'lucide-react'
 import { cn, getInitials } from '@/lib/utils'
 import { useAuth } from '@/lib/auth'
@@ -12,6 +12,7 @@ const navItems = [
   { icon: LayoutDashboard, label: 'Overview', path: '/dashboard/overview' },
   { icon: Mail, label: 'Emails', path: '/dashboard/emails' },
   { icon: Globe, label: 'Domains', path: '/dashboard/domains' },
+  { icon: ShieldCheck, label: 'Verified Mail', path: '/dashboard/verified-mail', highlight: true },
   { icon: Key, label: 'API Keys', path: '/dashboard/api-keys' },
   { icon: Users, label: 'Audiences', path: '/dashboard/audiences' },
   { icon: Megaphone, label: 'Broadcasts', path: '/dashboard/broadcasts' },
@@ -57,12 +58,21 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
             className={({ isActive }) => cn(
               'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-150 group',
               isActive
-                ? 'bg-[#161616] text-white'
-                : 'text-[#888] hover:text-white hover:bg-[#0f0f0f]'
+                ? item.highlight
+                  ? 'bg-[#6366f1]/15 text-[#818cf8]'
+                  : 'bg-[#161616] text-white'
+                : item.highlight
+                  ? 'text-[#6366f1]/70 hover:text-[#6366f1] hover:bg-[#6366f1]/8'
+                  : 'text-[#888] hover:text-white hover:bg-[#0f0f0f]'
             )}
           >
-            <item.icon className="w-4 h-4 shrink-0" />
-            {item.label}
+            <item.icon className={cn('w-4 h-4 shrink-0', item.highlight && 'drop-shadow-[0_0_4px_rgba(99,102,241,0.5)]')} />
+            <span className="flex-1">{item.label}</span>
+            {item.highlight && (
+              <span className="text-[9px] font-bold tracking-widest bg-[#6366f1]/20 text-[#818cf8] px-1.5 py-0.5 rounded uppercase">
+                New
+              </span>
+            )}
           </NavLink>
         ))}
       </nav>
@@ -87,7 +97,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
             onClick={() => setUserMenuOpen(o => !o)}
             className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-[#888] hover:text-white hover:bg-[#0f0f0f] transition-colors"
           >
-            <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold shrink-0">
+            <div className="w-6 h-6 rounded-full bg-[#6366f1]/20 text-[#6366f1] flex items-center justify-center text-xs font-bold shrink-0">
               {getInitials(user?.name || user?.email || 'U')}
             </div>
             <div className="flex-1 text-left overflow-hidden">
